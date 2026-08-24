@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScanMe — QR Code Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+    <div class="frame">
+
+        <header class="nav">
+            <div class="brand">
+                <div class="brand-mark"><span></span><span></span><span></span></div>
+                <div class="brand-text">
+                    <div class="brand-name">ScanMe</div>
+                    <div class="brand-tag">qr code generator</div>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light / dark mode"
+                    title="Toggle theme">
+                    <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <p class="eyebrow">01 — Paste a link, 02 — get a code</p>
+            <h1>Turn any link into a code you can scan in a blink.</h1>
+        </section>
+
+        <div class="tool">
+
+            <div class="panel">
+                <label class="field-label" for="url-input">Destination link</label>
+                <div class="input-row">
+                    <input type="text" id="url-input" placeholder="https://example.com/your-page" autocomplete="off"
+                        spellcheck="false">
+                    <button class="btn-primary" id="generate-btn">Generate</button>
+                </div>
+                <p class="hint">Works with any text too — Wi-Fi strings, plain notes, contact cards.</p>
+
+                <div class="controls">
+
+                    <div class="control-row">
+                        <span class="field-label" style="margin-bottom:0;">Error correction</span>
+                        <div class="ec-group" id="ec-group">
+                            <button class="ec-btn" data-ec="L" title="Recovers ~7% — smallest code">L</button>
+                            <button class="ec-btn active" data-ec="M"
+                                title="Recovers ~15% — balanced default">M</button>
+                            <button class="ec-btn" data-ec="Q" title="Recovers ~25% — sturdier">Q</button>
+                            <button class="ec-btn" data-ec="H" title="Recovers ~30% — best if adding a logo">H</button>
+                        </div>
+                    </div>
+
+                    <div class="control-row">
+                        <span class="field-label" style="margin-bottom:0;">Colors</span>
+                        <div class="color-swatches">
+                            <input type="color" id="fg-color" value="#12161B" title="Module color">
+                            <input type="color" id="bg-color" value="#ffffff" title="Background color">
+                        </div>
+                    </div>
+
+                    <div class="control-row">
+                        <span class="field-label" style="margin-bottom:0;">Size</span>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <input type="range" id="size-slider" min="160" max="440" step="20" value="260">
+                            <span class="size-value" id="size-value">260px</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel preview-panel">
+                <div class="preview-layout">
+                    <div class="viewfinder">
+                        <span class="vf-tl"></span><span class="vf-tr"></span>
+                        <div id="qrcode"></div>
+                    </div>
+
+                    <div class="preview-details">
+                        <dl class="readout">
+                            <div class="readout-item">
+                                <dt>Input length</dt>
+                                <dd id="ro-length">0 chars</dd>
+                            </div>
+                            <div class="readout-item">
+                                <dt>Error correction</dt>
+                                <dd id="ro-ec">M — 15%</dd>
+                            </div>
+                            <div class="readout-item">
+                                <dt>Output size</dt>
+                                <dd id="ro-size">260 × 260</dd>
+                            </div>
+                            <div class="readout-item">
+                                <dt>Status</dt>
+                                <dd id="ro-status">Waiting for input</dd>
+                            </div>
+                        </dl>
+
+                        <div class="download-row">
+                            <button class="btn-ghost" id="download-btn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download PNG
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 1: Where to Use & Display QR Codes -->
+        <section class="info-section">
+            <div class="section-header">
+                <p class="eyebrow">02 — Where to share & display</p>
+                <h2>Deploy your QR codes across any medium</h2>
+                <p class="section-subtitle">From physical prints to digital screens, your generated codes scan effortlessly across iOS Camera, Google Lens, and all barcode readers.</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="info-card">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3>Digital & Screen Sharing</h3>
+                    <p>Embed in keynote slides, stream overlays, email signatures, Zoom backgrounds, Linktree, or portfolio websites for fast audience interaction.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Print Media & Packaging</h3>
+                    <p>Print on business cards, stickers, product packaging, flyers, and merchandise with sharp, high-contrast vector clarity.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                            <line x1="6" y1="1" x2="6" y2="4"></line>
+                            <line x1="10" y1="1" x2="10" y2="4"></line>
+                            <line x1="14" y1="1" x2="14" y2="4"></line>
+                        </svg>
+                    </div>
+                    <h3>Hospitality & Retail</h3>
+                    <p>Place on restaurant table tents for digital menus, storefront windows for opening hours, or checkout counters for instant Wi-Fi connect.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <h3>Events & Conferences</h3>
+                    <p>Add to attendee badges, roll-up banners, stage screens, and booth materials to seamlessly route visitors to your landing page.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: About ScanMe -->
+        <section class="about-section">
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="eyebrow">03 — About ScanMe</p>
+                    <h2>Built for Privacy, Speed & Precision</h2>
+                    <p>
+                        ScanMe is an ultra-fast, zero-telemetry QR generation tool designed for creators, developers, and businesses. Unlike standard QR services that route links through intermediary redirect trackers, ScanMe generates 100% of your matrix locally in your browser.
+                    </p>
+                    <p>
+                        Tune error correction up to 30% recovery so your codes remain scan-proof even against physical wear, surface curvature, and harsh lighting.
+                    </p>
+                </div>
+
+                <div class="about-metrics">
+                    <div class="metric-card">
+                        <span class="metric-number">100%</span>
+                        <span class="metric-label">Client-Side Engine</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">0</span>
+                        <span class="metric-label">Tracking / Server Logs</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">30%</span>
+                        <span class="metric-label">Max Error Recovery</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">∞</span>
+                        <span class="metric-label">Unlimited Downloads</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-section">
+                <span class="footer-copy">© 2026 ScanMe.</span>
+                <span>All rights reserved.</span>
+                <span class="footer-dot">•</span>
+                <span>Client-Side Privacy Engine</span>
+            </div>
+            <div class="footer-section">
+                <span>Zero Server Logs</span>
+                <span class="footer-dot">•</span>
+                <span>High-Fidelity Rendering</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Theme toggle logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('scanme_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('scanme_theme', newTheme);
+        });
+
+        // QR Generator Elements
+        const urlInput = document.getElementById('url-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const qrContainer = document.getElementById('qrcode');
+        const ecGroup = document.getElementById('ec-group');
+        const fgColor = document.getElementById('fg-color');
+        const bgColor = document.getElementById('bg-color');
+        const sizeSlider = document.getElementById('size-slider');
+        const sizeValue = document.getElementById('size-value');
+        const downloadBtn = document.getElementById('download-btn');
+
+        const roLength = document.getElementById('ro-length');
+        const roEc = document.getElementById('ro-ec');
+        const roSize = document.getElementById('ro-size');
+        const roStatus = document.getElementById('ro-status');
+
+        const ecLabels = { L: '7%', M: '15%', Q: '25%', H: '30%' };
+        const ecMap = {
+            L: QRCode.CorrectLevel.L,
+            M: QRCode.CorrectLevel.M,
+            Q: QRCode.CorrectLevel.Q,
+            H: QRCode.CorrectLevel.H
+        };
+
+        let currentEc = 'M';
+        let qr = null;
+
+        function currentSize() {
+            return parseInt(sizeSlider.value, 10);
+        }
+
+        function render() {
+            const text = urlInput.value.trim();
+            const size = currentSize();
+
+            qrContainer.innerHTML = '';
+
+            if (!text) {
+                roStatus.textContent = 'Waiting for input';
+                roLength.textContent = '0 chars';
+                return;
+            }
+
+            qr = new QRCode(qrContainer, {
+                text: text,
+                width: size,
+                height: size,
+                colorDark: fgColor.value,
+                colorLight: bgColor.value,
+                correctLevel: ecMap[currentEc]
+            });
+
+            roLength.textContent = text.length + ' chars';
+            roEc.textContent = currentEc + ' — ' + ecLabels[currentEc];
+            roSize.textContent = size + ' × ' + size;
+            roStatus.textContent = 'Ready to download';
+        }
+
+        ecGroup.addEventListener('click', (e) => {
+            const btn = e.target.closest('.ec-btn');
+            if (!btn) return;
+            document.querySelectorAll('.ec-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentEc = btn.dataset.ec;
+            render();
+        });
+
+        sizeSlider.addEventListener('input', () => {
+            sizeValue.textContent = currentSize() + 'px';
+        });
+
+        [sizeSlider, fgColor, bgColor].forEach(el => {
+            el.addEventListener('change', render);
+        });
+
+        generateBtn.addEventListener('click', render);
+        urlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') render();
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const img = qrContainer.querySelector('img');
+            const canvas = qrContainer.querySelector('canvas');
+            const source = img || canvas;
+            if (!source) {
+                roStatus.textContent = 'Nothing to download yet';
+                return;
+            }
+            const dataUrl = img ? img.src : canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'scanme-qr-code.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+        // seed with an example so the page isn't empty on load
+        urlInput.value = 'https://example.com';
+        render();
+    </script>
+
+</body>
+
+</html>
