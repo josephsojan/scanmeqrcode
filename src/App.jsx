@@ -7,7 +7,7 @@ import { QrPreview } from './components/QrPreview';
 import { InfoSection } from './components/InfoSection';
 import { AboutSection } from './components/AboutSection';
 import { Footer } from './components/Footer';
-
+// Git test
 export function App() {
     const { theme, toggleTheme } = useTheme();
 

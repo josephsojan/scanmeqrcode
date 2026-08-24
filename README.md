@@ -100,11 +100,6 @@ ScanMe/
 
 ---
 
-## 🛡️ Privacy Guarantee
-
-ScanMe does **not** make external API calls for encoding or matrix generation. All QR matrices are computed entirely in browser memory.
-
----
 
 ## 📄 License
 
