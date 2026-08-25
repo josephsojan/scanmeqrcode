@@ -7,12 +7,12 @@ export function Footer() {
                 <span className="footer-copy">JS © 2026 ScanMe.</span>
                 <span>All rights reserved.</span>
                 <span className="footer-dot">•</span>
-                <span>Made with Passion</span>
+                <span>Encrypted Processing</span>
             </div>
             <div className="footer-section">
                 <span> Secure and Encrypted</span>
                 <span class="footer-dot">•</span>
-                <span>JS</span>
+                <span>Privacy Focused</span>
             </div>
         </footer>
     );
