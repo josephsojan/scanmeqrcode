@@ -10,7 +10,7 @@ export function Footer() {
                 <span>Client-Side Privacy Engine</span>
             </div>
             <div className="footer-section">
-                <span>Zero Server Logs</span>
+                <span> Secure and Encrypted</span>
                 <span class="footer-dot">•</span>
                 <span>High-Fidelity Rendering</span>
             </div>
