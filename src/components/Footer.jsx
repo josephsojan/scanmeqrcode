@@ -7,7 +7,7 @@ export function Footer() {
                 <span className="footer-copy">© 2026 ScanMe.</span>
                 <span>All rights reserved.</span>
                 <span className="footer-dot">•</span>
-                <span>Client-Side Privacy Engine</span>
+                <span>JS</span>
             </div>
             <div className="footer-section">
                 <span> Secure and Encrypted</span>
