@@ -82,7 +82,7 @@ export function QrGenerator({
                     className={`preset-tab ${preset === 'text' ? 'active' : ''}`}
                     onClick={() => setPreset('text')}
                 >
-                    <AlignLeft size={14} /> Plain Text
+                    <AlignLeft size={14} /> Text
                 </button>
             </div>
 
