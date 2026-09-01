@@ -17,9 +17,7 @@ export function AboutSection() {
                     <p>
                         ScanMe is an ultra-fast, zero-telemetry QR generation tool designed for creators, developers, and businesses. Unlike standard QR services that route links through intermediary redirect trackers, ScanMe generates 100% of your matrix locally in your browser.
                     </p>
-                    <p>
-                        Tune error correction up to 30% recovery so your codes remain scan-proof even against physical wear, surface curvature, and harsh lighting.
-                    </p>
+                    
                 </div>
 
                 <div className="about-metrics">
