@@ -11,7 +11,7 @@ export function InfoSection() {
         {
             icon: <Package size={22} />,
             title: 'Print Media & Packaging',
-            description: 'Print on business cards, stickers, product packaging, flyers, and merchandise with sharp, high-contrast vector clarity.'
+            description: 'Print on business cards, product packaging, flyers, and merchandise with sharp, high-contrast vector clarity.'
         },
         {
             icon: <Utensils size={22} />,
