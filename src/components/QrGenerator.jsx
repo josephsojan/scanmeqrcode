@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link2, Wifi, User, AlignLeft } from 'lucide-react';
+import { Link2, Wifi, User, AlignLeft, Image as ImageIcon } from 'lucide-react';
 
 export function QrGenerator({
     value,
@@ -24,6 +24,55 @@ export function QrGenerator({
     const [contactPhone, setContactPhone] = useState('');
     const [contactEmail, setContactEmail] = useState('');
     const [plainText, setPlainText] = useState('');
+    const [imageData, setImageData] = useState('');
+    const [imageName, setImageName] = useState('');
+    const [imageError, setImageError] = useState('');
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files?.[0];
+
+        if (!file) {
+            setImageData('');
+            setImageName('');
+            setImageError('');
+            onChangeValue('');
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            setImageError('Please choose a valid image file.');
+            setImageData('');
+            setImageName('');
+            onChangeValue('');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const dataUrl = reader.result;
+            setImageData(dataUrl);
+            setImageName(file.name);
+            setImageError('');
+            onChangeValue(dataUrl);
+        };
+
+        reader.onerror = () => {
+            setImageError('Unable to read the selected image.');
+            setImageData('');
+            setImageName('');
+            onChangeValue('');
+        };
+
+        reader.readAsDataURL(file);
+    };
+
+    const clearImage = () => {
+        setImageData('');
+        setImageName('');
+        setImageError('');
+        onChangeValue('');
+    };
 
     // Update parent QR value when inputs or preset change
     useEffect(() => {
@@ -49,8 +98,14 @@ export function QrGenerator({
             }
         } else if (preset === 'text') {
             onChangeValue(plainText);
+        } else if (preset === 'image') {
+            if (!imageData) {
+                onChangeValue('');
+            } else {
+                onChangeValue(imageData);
+            }
         }
-    }, [preset, urlInput, wifiSsid, wifiPass, wifiType, contactName, contactPhone, contactEmail, plainText]);
+    }, [preset, urlInput, wifiSsid, wifiPass, wifiType, contactName, contactPhone, contactEmail, plainText, imageData]);
 
     return (
         <div className="panel">
@@ -83,6 +138,13 @@ export function QrGenerator({
                     onClick={() => setPreset('text')}
                 >
                     <AlignLeft size={14} /> Text
+                </button>
+                <button
+                    type="button"
+                    className={`preset-tab ${preset === 'image' ? 'active' : ''}`}
+                    onClick={() => setPreset('image')}
+                >
+                    <ImageIcon size={14} /> Image
                 </button>
             </div>
 
@@ -181,6 +243,41 @@ export function QrGenerator({
                         placeholder="Type any message, notes, crypto address, or serialized data..."
                         autoComplete="off"
                     />
+                </div>
+            )}
+
+            {preset === 'image' && (
+                <div>
+                    <label className="field-label" htmlFor="image-upload">Upload an image</label>
+                    <div className="image-upload-box">
+                        <input
+                            type="file"
+                            id="image-upload"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="file-input-hidden"
+                        />
+                        <label htmlFor="image-upload" className="btn-ghost upload-trigger">
+                            Choose image
+                        </label>
+                        <span className={`image-name ${!imageName ? 'muted' : ''}`}>
+                            {imageName || 'No image selected'}
+                        </span>
+                        {imageData && (
+                            <button type="button" className="btn-ghost remove-image-btn" onClick={clearImage}>
+                                Clear
+                            </button>
+                        )}
+                    </div>
+
+                    {imageData && (
+                        <div className="image-preview-wrap">
+                            <img src={imageData} alt="Selected QR source preview" className="image-preview" />
+                        </div>
+                    )}
+
+                    {imageError && <p className="hint error-text">{imageError}</p>}
+                    <p className="hint">Best results come from smaller images: large photos may exceed QR data limits.</p>
                 </div>
             )}
 
