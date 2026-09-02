@@ -1,106 +1,102 @@
-# ScanMe ⚡ — Instant QR Code Generator
+# ScanMe
 
-A sleek, privacy-focused, 100% client-side QR code generator built with **React, Vite, and Lucide Icons**. Generate high-resolution, customized QR codes in a blink without any data leaving your browser.
+**A fast, privacy-focused QR code generator built for the web.**
 
-![ScanMe Banner](https://img.shields.io/badge/Privacy-100%25%20Client--Side-E8A33D?style=for-the-badge&logo=shield)
-![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
-![Tech Stack](https://img.shields.io/badge/React%2018%20%7C%20Vite%205%20%7C%20CSS-black?style=for-the-badge)
+ScanMe is a client-side QR code generator that lets users create, customize, and export QR codes directly in their browser. No accounts, no tracking, and no data sent to a server.
 
----
+## Features
 
-## ✨ Features
+* **100% Client-Side** — QR codes are generated locally in the browser.
+* **Multiple QR Types** — URL, Wi-Fi, Contact, and Plain Text.
+* **Customizable Design** — Adjust colors, size, and error correction.
+* **PNG & SVG Export** — Download QR codes in high-quality formats.
+* **Clipboard Support** — Copy generated QR codes instantly.
+* **Dark & Light Mode** — Responsive theme with saved preferences.
+* **Responsive Design** — Works seamlessly across desktop and mobile.
 
-- 🔒 **Zero Telemetry & 100% Client-Side**: Unlike other generator services that route links through tracking proxies or store query logs, ScanMe renders the entire matrix locally in your browser.
-- 🌓 **Dark & Light Mode**: Seamless theme switching with smooth transitions, SVG icons, system color scheme detection, and `localStorage` persistence.
-- 🎯 **Smart Presets**:
-  - **URL / Link**: Websites, portfolios, social bios, and deep links.
-  - **Wi-Fi**: Instant connection string for guest networks without manual password entry.
-  - **Contact (vCard)**: Digital business card with full name, phone number, and email.
-  - **Plain Text**: Notes, messages, addresses, and serialized data.
-- 🎨 **Deep Customization**:
-  - **Error Correction Levels**: `L` (~7%), `M` (~15%), `Q` (~25%), and `H` (~30% recovery for high-reliability scanning).
-  - **Color Customization**: Native hex color pickers for both module foreground and background.
-  - **Size Slider**: Dynamic visual preview and configurable output resolution (160px – 440px).
-- 📥 **Multi-Format Export**:
-  - **High-Res PNG**: Vector-accurate raster image.
-  - **Lossless SVG**: Scalable vector format for graphic design and print media.
-  - **One-Click Clipboard Copy**: Instantly copy the QR image to paste into documents or messages.
-- 📊 **Real-Time Technical Readout**: Live statistics tracking input length, active error correction percentage, output dimensions, and generator readiness.
-- 📱 **Mobile & Desktop Responsive**: Clean side-by-side viewfinder layout on larger screens and a fluid stacked layout on mobile devices.
+## Tech Stack
 
----
+* React
+* Vite
+* JavaScript
+* CSS
+* Lucide Icons
 
-## 🚀 Quick Start
+## Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18+)
 
-### Installation & Run
+* Node.js 18 or later
+* npm
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/josephsojan/ScanMe.git
-   cd ScanMe
-   ```
+### Installation
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   Open **`http://localhost:3000`** in your browser.
-
-4. Build for production:
-   ```bash
-   npm run build
-   ```
-
----
-
-## 🛠️ Project Structure
-
+```bash
+git clone https://github.com/josephsojan/ScanMe.git
+cd ScanMe
+npm install
 ```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Open the local development URL shown in your terminal.
+
+### Production Build
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+```text
 ScanMe/
-├── index.html               # Vite HTML entry template
-├── vite.config.js           # Vite build configuration
-├── package.json             # Project dependencies & scripts
 ├── src/
-│   ├── main.jsx             # React entry point
-│   ├── App.jsx              # Main application root
-│   ├── index.css            # CSS design system (tokens, themes & layout)
+│   ├── components/
+│   │   ├── AboutSection.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Hero.jsx
+│   │   ├── InfoSection.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── QrGenerator.jsx
+│   │   ├── QrPreview.jsx
+│   │   └── ThemeToggle.jsx
 │   ├── hooks/
-│   │   └── useTheme.js      # Theme state management & localStorage persistence
-│   └── components/
-│       ├── Navbar.jsx       # Header with branding & ThemeToggle
-│       ├── ThemeToggle.jsx  # Interactive Sun/Moon theme switcher
-│       ├── Hero.jsx         # Hero section
-│       ├── QrGenerator.jsx  # Form inputs, preset tabs, colors & size slider
-│       ├── QrPreview.jsx    # Live viewfinder, side-by-side readout & exports
-│       ├── InfoSection.jsx  # 02 — Where to share & display grid
-│       ├── AboutSection.jsx # 03 — About ScanMe with live metric counters
-│       └── Footer.jsx       # Professional 2026 copyright footer
-├── LICENSE                  # MIT License
-└── README.md                # Documentation
+│   │   └── useTheme.js
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
 ```
 
+## Use Cases
+
+ScanMe can be used for:
+
+* Websites and portfolios
+* Social media profiles
+* Wi-Fi sharing
+* Digital business cards
+* Event materials
+* Business cards and flyers
+* Menus and product packaging
+* Presentations and digital displays
+
+## Privacy
+
+ScanMe is designed with privacy in mind. QR code content is processed locally in the user's browser and is not uploaded to a backend server.
+
+## License
+
+This project is licensed under the **MIT License**.
+
 ---
 
-## 🎯 Use Cases
-
-| Category | Typical Applications |
-| :--- | :--- |
-| 🖥️ **Digital & Screens** | Slide decks, stream overlays, email signatures, Zoom virtual backgrounds, Linktree, and portfolios |
-| 📦 **Print & Packaging** | Business cards, stickers, product packaging, flyers, brochures, and merchandise |
-| 🍽️ **Hospitality & Retail** | Contactless dining menus, storefront hours, and instant Wi-Fi network credentials |
-| 🎟️ **Events & Conferences** | Attendee badges, stage presentations, roll-up banners, and booth materials |
-
----
-
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
+**ScanMe — Generate. Customize. Share.**
